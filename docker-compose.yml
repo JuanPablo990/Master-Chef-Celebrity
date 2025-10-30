@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  master-chef-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MONGO_ATLAS_URI=mongodb+srv://juanpablonietocortes32_db_user:zCWorNtXATbo76jP@cluster0.ycbpjq1.mongodb.net/masterchef?retryWrites=true&w=majority
+    networks:
+      - master-chef-network
+
+  # MongoDB local (para desarrollo)
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=masterchef
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - master-chef-network
+
+  sonarqube:
+    image: sonarqube:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    networks:
+      - master-chef-network
+
+volumes:
+  mongodb_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+
+networks:
+  master-chef-network:
+    driver: bridge
