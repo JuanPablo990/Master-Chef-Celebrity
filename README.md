@@ -17,8 +17,5 @@ API REST para la gestión de recetas, chefs y participantes del programa Master 
 - Java 17
 - Maven 3.6+
 - MongoDB Atlas
+- render (Azure no me sirve por temas de autenticacion)
 
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/tu-usuario/master-chef-api.git
-cd master-chef-api
